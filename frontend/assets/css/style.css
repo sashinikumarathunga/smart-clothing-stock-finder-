@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -15,15 +16,30 @@
   --topbar-h: 60px;
   --sidebar-w: 248px;
   --radius: 14px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+  --shadow-sm:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 1px 3px rgba(15, 23, 42, 0.05);
+
+  --shadow-md:
+    0 8px 24px rgba(15, 23, 42, 0.08);
 }
+
+
+/* =========================================================
+   GLOBAL STYLES
+   ========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
+  min-height: 100vh;
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg);
@@ -31,7 +47,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- Topbar ---------- */
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
 .topbar {
   position: sticky;
   top: 0;
@@ -83,6 +103,11 @@ body {
   font-size: 1.3rem;
 }
 
+
+/* =========================================================
+   USER CHIP
+   ========================================================= */
+
 .user-chip {
   display: flex;
   align-items: center;
@@ -94,7 +119,7 @@ body {
   height: 38px;
   border-radius: 50%;
   background: var(--brand);
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
   font-size: 0.85rem;
   display: grid;
@@ -136,7 +161,11 @@ body {
   border-color: #fecaca;
 }
 
-/* ---------- Layout ---------- */
+
+/* =========================================================
+   MAIN APPLICATION LAYOUT
+   ========================================================= */
+
 .app-body {
   display: flex;
   align-items: flex-start;
@@ -171,7 +200,9 @@ body {
   text-decoration: none;
   font-weight: 500;
   font-size: 0.92rem;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .side-nav__item i {
@@ -205,7 +236,11 @@ body {
   display: none;
 }
 
-/* ---------- Cards ---------- */
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
 .card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -224,7 +259,11 @@ body {
   padding: 18px;
 }
 
-/* ---------- Stat cards ---------- */
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
 .stat-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -250,10 +289,25 @@ body {
   flex: 0 0 auto;
 }
 
-.stat-card__icon--green { background: #dcfce7; color: var(--success); }
-.stat-card__icon--amber { background: #fef3c7; color: var(--warning); }
-.stat-card__icon--red { background: #fee2e2; color: var(--danger); }
-.stat-card__icon--blue { background: #dbeafe; color: #2563eb; }
+.stat-card__icon--green {
+  background: #dcfce7;
+  color: var(--success);
+}
+
+.stat-card__icon--amber {
+  background: #fef3c7;
+  color: var(--warning);
+}
+
+.stat-card__icon--red {
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+.stat-card__icon--blue {
+  background: #dbeafe;
+  color: #2563eb;
+}
 
 .stat-card__label {
   font-size: 0.8rem;
@@ -267,7 +321,11 @@ body {
   line-height: 1.1;
 }
 
-/* ---------- Tables ---------- */
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
 .app-table {
   font-size: 0.9rem;
 }
@@ -310,7 +368,11 @@ body {
   padding: 0.35em 0.7em;
 }
 
-/* ---------- Buttons & forms ---------- */
+
+/* =========================================================
+   BUTTONS AND FORMS
+   ========================================================= */
+
 .btn {
   border-radius: 10px;
   font-weight: 500;
@@ -362,7 +424,11 @@ body {
   border-color: var(--line);
 }
 
-/* ---------- State blocks ---------- */
+
+/* =========================================================
+   LOADING AND EMPTY STATES
+   ========================================================= */
+
 .state-block {
   display: flex;
   flex-direction: column;
@@ -383,7 +449,11 @@ body {
   font-size: 0.92rem;
 }
 
-/* ---------- Toasts ---------- */
+
+/* =========================================================
+   TOAST MESSAGES
+   ========================================================= */
+
 .toast-stack {
   position: fixed;
   top: 18px;
@@ -408,7 +478,9 @@ body {
   font-size: 0.9rem;
   opacity: 0;
   transform: translateX(20px);
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 
 .app-toast--in {
@@ -425,14 +497,37 @@ body {
   font-size: 1.15rem;
 }
 
-.app-toast--success { border-left-color: var(--success); }
-.app-toast--success > i:first-child { color: var(--success); }
-.app-toast--danger { border-left-color: var(--danger); }
-.app-toast--danger > i:first-child { color: var(--danger); }
-.app-toast--warning { border-left-color: var(--warning); }
-.app-toast--warning > i:first-child { color: var(--warning); }
-.app-toast--info { border-left-color: var(--brand); }
-.app-toast--info > i:first-child { color: var(--brand); }
+.app-toast--success {
+  border-left-color: var(--success);
+}
+
+.app-toast--success > i:first-child {
+  color: var(--success);
+}
+
+.app-toast--danger {
+  border-left-color: var(--danger);
+}
+
+.app-toast--danger > i:first-child {
+  color: var(--danger);
+}
+
+.app-toast--warning {
+  border-left-color: var(--warning);
+}
+
+.app-toast--warning > i:first-child {
+  color: var(--warning);
+}
+
+.app-toast--info {
+  border-left-color: var(--brand);
+}
+
+.app-toast--info > i:first-child {
+  color: var(--brand);
+}
 
 .app-toast__msg {
   flex: 1;
@@ -448,48 +543,295 @@ body {
   padding: 0;
 }
 
-/* ---------- Login ---------- */
+
+/* =========================================================
+   OLD LOGIN WRAPPER SUPPORT
+   ========================================================= */
+
 .login-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: radial-gradient(1200px 600px at 10% -10%, #c7d2fe 0%, transparent 50%),
-    radial-gradient(900px 500px at 110% 110%, #ddd6fe 0%, transparent 55%), var(--bg);
+
+  background:
+    radial-gradient(
+      1200px 600px at 10% -10%,
+      #c7d2fe 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      900px 500px at 110% 110%,
+      #ddd6fe 0%,
+      transparent 55%
+    ),
+    var(--bg);
 }
 
+
+/* =========================================================
+   NEW LOGIN PAGE
+   ========================================================= */
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(420px, 0.8fr);
+  background: var(--surface);
+}
+
+
+/* Left-side image area */
+.login-visual {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(32px, 5vw, 70px);
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.15),
+      rgba(15, 23, 42, 0.9)
+    ),
+    url("../images/login/clothing-store.jpeg")
+    center center / cover no-repeat;
+}
+
+
+/* Optional video background */
+.login-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+
+/* Dark layer over the image or video */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.1),
+      rgba(15, 23, 42, 0.85)
+    );
+}
+
+
+/* Text displayed over the image */
+.login-visual-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.login-visual-content h1 {
+  margin: 18px 0;
+  font-size: clamp(2.2rem, 4vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.login-visual-content p {
+  max-width: 580px;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+
+/* Small badge over the image */
+.login-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+
+/* Feature list */
+.login-feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  margin-top: 28px;
+}
+
+.login-feature-list span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+}
+
+.login-feature-list i {
+  color: #86efac;
+}
+
+
+/* Right-side form section */
+.login-form-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      #e0e7ff,
+      transparent 35%
+    ),
+    #f8fafc;
+}
+
+
+/* Login card */
 .login-card {
   width: 100%;
-  max-width: 410px;
+  max-width: 480px;
   border: none;
-  border-radius: 18px;
-  box-shadow: var(--shadow-md);
+  border-radius: 24px;
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.12);
 }
 
+
+/* Logo and system name */
 .login-brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: var(--brand);
+  font-size: 1.15rem;
   font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--ink);
 }
 
 .login-brand i {
   color: var(--brand);
-  font-size: 1.6rem;
+  font-size: 1.55rem;
 }
 
+
+/* Welcome title */
+.login-title {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+
+/* Login form labels */
+.login-card .form-label {
+  color: #334155;
+  font-weight: 600;
+}
+
+
+/* Login input fields */
+.login-card .form-control,
+.login-card .input-group-text,
+.login-card .btn-outline-secondary {
+  min-height: 48px;
+  border-color: #dbe2ea;
+}
+
+.login-card .input-group-text {
+  border-right: 0;
+}
+
+.login-card .input-group .form-control {
+  border-left: 0;
+}
+
+.login-card .input-group .form-control:focus {
+  border-left: 1px solid var(--brand);
+}
+
+.login-card .form-control:focus {
+  border-color: #6366f1;
+  box-shadow:
+    0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+}
+
+
+/* Login button */
+.login-card .btn-primary {
+  min-height: 48px;
+  border: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #7c3aed
+    );
+
+  font-weight: 600;
+}
+
+.login-card .btn-primary:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #4338ca,
+      #6d28d9
+    );
+}
+
+.login-card .btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
+/* Demo information box */
 .login-hint {
-  background: var(--brand-soft);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 0.82rem;
-  color: var(--brand-dark);
+  padding: 16px;
+  border: 1px solid #c7d2fe;
+  border-radius: 14px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.86rem;
 }
 
-/* ---------- Responsive ---------- */
+.login-hint code {
+  color: #3730a3;
+}
+
+
+/* Login footer */
+.login-footer {
+  font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE APPLICATION LAYOUT
+   ========================================================= */
+
 @media (max-width: 991.98px) {
   .topbar__toggle {
     display: inline-flex;
@@ -520,7 +862,68 @@ body {
   .user-chip__meta {
     display: none;
   }
+
+
+  /* Login page tablet and mobile styles */
+  .login-page {
+    display: block;
+    min-height: 100vh;
+
+    background:
+      linear-gradient(
+        rgba(15, 23, 42, 0.72),
+        rgba(15, 23, 42, 0.82)
+      ),
+      url("../images/login/clothing-store.jpeg")
+      center center / cover no-repeat;
+  }
+
+  .login-visual {
+    display: none;
+  }
+
+  .login-form-section {
+    min-height: 100vh;
+    padding: 24px;
+    background: transparent;
+  }
+
+  .login-card {
+    max-width: 520px;
+  }
 }
+
+
+/* =========================================================
+   SMALL MOBILE SCREENS
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+  .login-form-section {
+    padding: 16px;
+  }
+
+  .login-card {
+    border-radius: 18px;
+  }
+
+  .login-card .card-body {
+    padding: 28px 22px !important;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  .login-brand {
+    font-size: 1rem;
+  }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
 
 @media print {
   .topbar,
@@ -535,6 +938,6 @@ body {
 
   .card {
     box-shadow: none;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
   }
 }

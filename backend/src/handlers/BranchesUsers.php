@@ -5,7 +5,7 @@ declare(strict_types=1);
 function handleBranchesList(): never
 {
     Auth::requireRole(['owner']);
-    $branches = getDb()->query('SELECT * FROM branches ORDER BY name')->fetchAll();
+    $branches = getDb()->query('SELECT * FROM branches WHERE is_active = 1 ORDER BY name')->fetchAll();
     Response::json(['branches' => $branches]);
 }
 
@@ -31,7 +31,7 @@ function handleBranchesCreate(): never
 function handleBranchesGet(int $id): never
 {
     Auth::requireRole(['owner']);
-    $stmt = getDb()->prepare('SELECT * FROM branches WHERE id = :id LIMIT 1');
+    $stmt = getDb()->prepare('SELECT * FROM branches WHERE id = :id AND is_active = 1 LIMIT 1');
     $stmt->execute(['id' => $id]);
     $branch = $stmt->fetch();
 
@@ -55,7 +55,7 @@ function handleBranchesUpdate(int $id): never
     }
 
     $stmt = getDb()->prepare(
-        'UPDATE branches SET name = :name, location = :location, phone = :phone WHERE id = :id'
+        'UPDATE branches SET name = :name, location = :location, phone = :phone WHERE id = :id AND is_active = 1'
     );
     $stmt->execute(['name' => $name, 'location' => $location, 'phone' => $phone, 'id' => $id]);
 
@@ -69,14 +69,14 @@ function handleBranchesUpdate(int $id): never
 function handleBranchesDelete(int $id): never
 {
     Auth::requireRole(['owner']);
-    $stmt = getDb()->prepare('DELETE FROM branches WHERE id = :id');
+    $stmt = getDb()->prepare('UPDATE branches SET is_active = 0 WHERE id = :id AND is_active = 1');
     $stmt->execute(['id' => $id]);
 
     if ($stmt->rowCount() === 0) {
         Response::notFound('Branch not found');
     }
 
-    Response::json(['message' => 'Branch deleted']);
+    Response::json(['message' => 'Branch deactivated']);
 }
 
 function handleUsersList(): never
@@ -90,7 +90,7 @@ function handleUsersList(): never
             'SELECT u.id, u.branch_id, u.role, u.full_name, u.username, u.is_active, u.created_at, b.name AS branch_name
              FROM users u
              LEFT JOIN branches b ON b.id = u.branch_id
-             WHERE u.role = "branch_admin"
+             WHERE u.role = "branch_admin" AND u.is_active = 1
              ORDER BY u.full_name'
         );
     } else {
@@ -98,7 +98,7 @@ function handleUsersList(): never
             'SELECT u.id, u.branch_id, u.role, u.full_name, u.username, u.is_active, u.created_at, b.name AS branch_name
              FROM users u
              LEFT JOIN branches b ON b.id = u.branch_id
-             WHERE u.branch_id = :branch_id AND u.role IN ("storekeeper", "sales_assistant", "cashier")
+             WHERE u.branch_id = :branch_id AND u.is_active = 1 AND u.role IN ("storekeeper", "sales_assistant", "cashier")
              ORDER BY u.full_name'
         );
         $stmt->execute(['branch_id' => Auth::requireUserBranchId($user)]);
@@ -230,11 +230,11 @@ function handleUsersDelete(int $id): never
     }
 
     if ((int) $existing['id'] === (int) $user['id']) {
-        Response::error('You cannot delete your own account.');
+        Response::error('You cannot deactivate your own account.');
     }
 
-    $db->prepare('DELETE FROM users WHERE id = :id')->execute(['id' => $id]);
-    Response::json(['message' => 'User deleted']);
+    $db->prepare('UPDATE users SET is_active = 0 WHERE id = :id AND is_active = 1')->execute(['id' => $id]);
+    Response::json(['message' => 'User deactivated']);
 }
 
 function userRowAccessible(array $actor, array $target): bool

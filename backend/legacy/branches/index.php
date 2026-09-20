@@ -47,7 +47,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         <td><?= e($branch['phone']) ?></td>
                                         <td>
                                             <a href="<?= e(url('branches/edit.php?id=' . $branch['id'])) ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <a href="<?= e(url('branches/delete.php?id=' . $branch['id'])) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this branch?');">Delete</a>
+                                            <a href="<?= e(url('branches/delete.php?id=' . $branch['id'])) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deactivate this branch? The record will remain in the database but disappear from the system.');">Deactivate</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

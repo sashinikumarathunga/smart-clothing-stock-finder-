@@ -73,7 +73,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         <td><?= (int) $row['is_active'] === 1 ? 'Active' : 'Inactive' ?></td>
                                         <td>
                                             <a href="<?= e(url('users/edit.php?id=' . $row['id'])) ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <a href="<?= e(url('users/delete.php?id=' . $row['id'])) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this user?');">Delete</a>
+                                            <a href="<?= e(url('users/delete.php?id=' . $row['id'])) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deactivate this user? The record will remain in the database and the user will no longer be able to log in.');">Deactivate</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

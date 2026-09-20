@@ -84,6 +84,9 @@ function handleDashboard(): never
         'staff' => 0,
         'low_stock' => 0,
         'today_sales' => 0.0,
+        'returns' => 0,
+        'exchanges' => 0,
+        'loyalty_discount' => 0.0,
     ];
 
     $recentSales = [];
@@ -103,6 +106,9 @@ function handleDashboard(): never
             $stats['low_stock'] = 0;
         }
         $lowStockAlerts = getLowStockAlerts($db, null, $role);
+        $stats['returns'] = (int) $db->query("SELECT COUNT(*) FROM returns_exchanges WHERE type = 'return'")->fetchColumn();
+        $stats['exchanges'] = (int) $db->query("SELECT COUNT(*) FROM returns_exchanges WHERE type = 'exchange'")->fetchColumn();
+        $stats['loyalty_discount'] = (float) $db->query('SELECT COALESCE(SUM(discount_amount), 0) FROM sales')->fetchColumn();
 
         $recentSales = $db->query(
             'SELECT s.id, s.total, s.payment_method, s.created_at, b.name AS branch_name, u.full_name AS cashier_name
@@ -136,6 +142,12 @@ function handleDashboard(): never
             $stats['low_stock'] = 0;
         }
         $lowStockAlerts = getLowStockAlerts($db, $branchId, $role);
+        $stmt = $db->prepare("SELECT COUNT(*) FROM returns_exchanges WHERE branch_id = :branch_id AND type = 'return'");
+        $stmt->execute(['branch_id' => $branchId]); $stats['returns'] = (int) $stmt->fetchColumn();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM returns_exchanges WHERE branch_id = :branch_id AND type = 'exchange'");
+        $stmt->execute(['branch_id' => $branchId]); $stats['exchanges'] = (int) $stmt->fetchColumn();
+        $stmt = $db->prepare('SELECT COALESCE(SUM(discount_amount), 0) FROM sales WHERE branch_id = :branch_id');
+        $stmt->execute(['branch_id' => $branchId]); $stats['loyalty_discount'] = (float) $stmt->fetchColumn();
 
         $stmt = $db->prepare(
             'SELECT s.id, s.total, s.payment_method, s.created_at, u.full_name AS cashier_name
@@ -180,6 +192,13 @@ function handleDashboard(): never
         );
         $stmt->execute(['branch_id' => $branchId, 'cashier_id' => $user['id']]);
         $stats['today_sales'] = (float) $stmt->fetchColumn();
+
+        $stmt = $db->prepare("SELECT COUNT(*) FROM returns_exchanges WHERE branch_id = :branch_id AND processed_by = :user_id AND type = 'return' AND DATE(created_at) = CURDATE()");
+        $stmt->execute(['branch_id' => $branchId, 'user_id' => $user['id']]); $stats['returns'] = (int) $stmt->fetchColumn();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM returns_exchanges WHERE branch_id = :branch_id AND processed_by = :user_id AND type = 'exchange' AND DATE(created_at) = CURDATE()");
+        $stmt->execute(['branch_id' => $branchId, 'user_id' => $user['id']]); $stats['exchanges'] = (int) $stmt->fetchColumn();
+        $stmt = $db->prepare('SELECT COALESCE(SUM(discount_amount), 0) FROM sales WHERE branch_id = :branch_id AND cashier_id = :cashier_id AND DATE(created_at) = CURDATE()');
+        $stmt->execute(['branch_id' => $branchId, 'cashier_id' => $user['id']]); $stats['loyalty_discount'] = (float) $stmt->fetchColumn();
     }
 
     Response::json([

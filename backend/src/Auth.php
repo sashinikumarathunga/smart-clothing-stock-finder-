@@ -90,6 +90,7 @@ final class Auth
              FROM users u
              LEFT JOIN branches b ON b.id = u.branch_id
              WHERE u.username = :username AND u.is_active = 1
+               AND (u.branch_id IS NULL OR b.is_active = 1)
              LIMIT 1'
         );
         $stmt->execute(['username' => $username]);
@@ -169,6 +170,7 @@ final class Auth
                  INNER JOIN users u ON u.id = t.user_id
                  LEFT JOIN branches b ON b.id = u.branch_id
                  WHERE t.token = :token AND t.expires_at > NOW() AND u.is_active = 1
+                   AND (u.branch_id IS NULL OR b.is_active = 1)
                  LIMIT 1'
             );
             $stmt->execute(['token' => $token]);
